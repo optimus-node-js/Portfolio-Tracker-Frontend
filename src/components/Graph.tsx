@@ -24,6 +24,7 @@ import {
   ChartData,
 } from 'chart.js';
 import { format, parse } from 'date-fns';
+import { useTheme } from '@emotion/react'; // Import useTheme for dynamic theming
 
 // Register Chart.js components
 ChartJS.register(
@@ -41,6 +42,8 @@ type GraphProps = {
 };
 
 export const Graph: React.FC<GraphProps> = ({ data }) => {
+  const theme = useTheme(); // Access current theme
+
   if (!data) return null;
 
   // Extract portfolio data
@@ -167,12 +170,15 @@ export const Graph: React.FC<GraphProps> = ({ data }) => {
     };
   }, [labels, chartDatasets]);
 
-  // Define chart options with the correct type for LegendElement
+  // Define chart options with the correct type for LegendElement and theme-based colors
   const options: ChartOptions<'line'> = {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
       legend: {
+        labels: {
+          color: theme.colors.text, // Apply theme color for legend text
+        },
         position: 'top' as const,
         onClick: function (
           _e: ChartEvent,
@@ -195,18 +201,12 @@ export const Graph: React.FC<GraphProps> = ({ data }) => {
       title: {
         display: true,
         text: 'Portfolio and Stock Portfolio Overview',
+        color: theme.colors.text, // Apply theme color for title text
       },
       tooltip: {
-        mode: 'index' as const,
-        intersect: false,
-        callbacks: {
-          // Customize tooltip labels
-          label: function (context) {
-            const label = context.dataset.label || '';
-            const value = context.parsed.y;
-            return `${label}: ${value}`;
-          },
-        },
+        backgroundColor: theme.colors.background, // Theme color for tooltip background
+        titleColor: theme.colors.text,
+        bodyColor: theme.colors.text,
       },
     },
     interaction: {
@@ -215,13 +215,11 @@ export const Graph: React.FC<GraphProps> = ({ data }) => {
     },
     scales: {
       x: {
-        title: {
-          display: true,
-          text: 'Date',
-        },
         ticks: {
-          maxRotation: 90,
-          minRotation: 45,
+          color: theme.colors.text, // Apply theme color for x-axis labels
+        },
+        grid: {
+          color: theme.colors.primary,
         },
       },
       y1: {
@@ -231,6 +229,13 @@ export const Graph: React.FC<GraphProps> = ({ data }) => {
         title: {
           display: true,
           text: 'Portfolio Values',
+          color: theme.colors.text, // Apply theme color for y-axis title
+        },
+        ticks: {
+          color: theme.colors.text, // Theme color for y-axis ticks
+        },
+        grid: {
+          color: theme.colors.primary,
         },
         beginAtZero: true,
       },
@@ -240,10 +245,15 @@ export const Graph: React.FC<GraphProps> = ({ data }) => {
         position: 'right' as const,
         grid: {
           drawOnChartArea: false,
+          color: theme.colors.primary,
         },
         title: {
           display: true,
           text: 'Stock Metrics',
+          color: theme.colors.text,
+        },
+        ticks: {
+          color: theme.colors.text,
         },
         beginAtZero: true,
       },
@@ -251,12 +261,12 @@ export const Graph: React.FC<GraphProps> = ({ data }) => {
   };
 
   return (
-    <div style={{ width: '100%', height: '100vh', padding: '20px', boxSizing: 'border-box' }}>
+    <div style={{ width: '100%', height: '59%', padding: '20px' }}>
       {/* Selection Controls */}
       <div style={{ display: 'flex', flexWrap: 'wrap', marginBottom: '20px' }}>
         {/* Portfolio Metrics Selection */}
         <div style={{ marginRight: '40px' }}>
-          <h3>Portfolio Metrics</h3>
+          <h3 style={{ color: theme.colors.text }}>Portfolio Metrics</h3>
           {portfolioMetrics.map((metric) => (
             <div key={metric.key}>
               <label>
@@ -274,7 +284,7 @@ export const Graph: React.FC<GraphProps> = ({ data }) => {
 
         {/* Stock Metrics Selection */}
         <div>
-          <h3>Stock Metrics</h3>
+          <h3 style={{ color: theme.colors.text }}>Stock Metrics</h3>
           {stockMetrics.map((metric) => (
             <div key={metric.key}>
               <label>

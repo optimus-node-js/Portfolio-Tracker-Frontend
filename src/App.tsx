@@ -4,7 +4,6 @@ import React from 'react';
 import { RecoilRoot, useRecoilValue } from 'recoil';
 import { ThemeProvider } from '@emotion/react';
 import { NextUIProvider } from '@nextui-org/react';
-import { AnimatePresence } from 'framer-motion';
 import { Dashboard } from './pages/Dashboard';
 import { themeAtom } from './recoil/atoms';
 import { lightTheme, darkTheme } from './theme';
@@ -16,9 +15,7 @@ const ThemedApp: React.FC = () => {
   return (
     <ThemeProvider theme={currentTheme}>
       <NextUIProvider>
-        <AnimatePresence>
           <Dashboard />
-        </AnimatePresence>
       </NextUIProvider>
     </ThemeProvider>
   );
