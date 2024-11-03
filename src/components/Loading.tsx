@@ -1,7 +1,7 @@
 // src/components/Loading.tsx
 
 import React from 'react';
-import { Spinner } from "@nextui-org/spinner";
+import CircularProgress from '@mui/material/CircularProgress';
 
 const Loading: React.FC = () => {
   return (
@@ -14,8 +14,8 @@ const Loading: React.FC = () => {
         flexDirection: 'column',
       }}
     >
-      {/* NextUI Spinner */}
-      <Spinner size="lg" color="primary" style={{ marginBottom: '10px' }} />
+      {/* Material-UI CircularProgress Spinner */}
+      <CircularProgress size={40} color="primary" style={{ marginBottom: '10px' }} />
       {/* Loading text */}
       <p>Loading data...</p>
     </div>
