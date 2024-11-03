@@ -1,4 +1,14 @@
-:root {
+/* src/index.css or your main CSS file */
+
+/* Reset default margins and paddings */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Set body to occupy full viewport without centering */
+body {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
@@ -11,8 +21,15 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  /* Removed align-items and justify-content */
+  overflow: hidden; /* Prevents scrolling if content overflows slightly */
 }
 
+/* Link styles */
 a {
   font-weight: 500;
   color: #646cff;
@@ -22,18 +39,19 @@ a:hover {
   color: #535bf2;
 }
 
-body {
-  margin: 0;
-  padding: 0;
+/* #root styles */
+#root {
   width: 100vw;
   height: 100vh;
+  margin: 0;
+  padding: 0;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden; /* Prevents scrolling if content overflows slightly */
+  flex-direction: column;
+  /* Removed align-items and justify-content */
+  box-sizing: border-box; /* Ensure padding and borders don't affect dimensions */
 }
 
-
+/* Other global styles */
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
@@ -58,6 +76,7 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+/* Light theme adjustments */
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
@@ -69,4 +88,42 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+
+/* Logo styles */
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+/* Remove animations that might affect layout */
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: none; /* Remove animation */
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
 }
