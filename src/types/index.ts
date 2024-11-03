@@ -1,6 +1,5 @@
 // src/types/index.ts
 
-// Interface for individual stock entries in stock portfolio
 export interface StockEntry {
   date: string;
   exchange: string;
@@ -15,16 +14,16 @@ export interface StockEntry {
   todayGain: number;
 }
 
-// Interface for stock portfolio document
-export interface StockPortfolio {
-  ClientCode: string;
-  PortfolioStocks: {
-    stockName: string;
-    entries: StockEntry[];
-  }[];
+export interface PortfolioStock {
+  stockName: string;
+  entries: StockEntry[];
 }
 
-// Interface for individual entries in client portfolio
+export interface StockPortfolio {
+  ClientCode: string;
+  PortfolioStocks: PortfolioStock[];
+}
+
 export interface PortfolioEntry {
   date: string;
   totalholdingvalue: number;
@@ -34,24 +33,17 @@ export interface PortfolioEntry {
   totalTodayGain: number;
 }
 
-// Interface for client portfolio document
 export interface ClientPortfolio {
   ClientCode: string;
   Portfolio: PortfolioEntry[];
 }
 
-// Combined interface for the aggregated API response
 export interface CombinedPortfolioData {
   portfolio?: ClientPortfolio;
   stockPortfolio?: StockPortfolio;
 }
 
-// New Filters Interface
 export interface Filters {
   startDate: string;
   endDate: string;
-  // Add more filter criteria as needed
-  // Example:
-  // symbol?: string;
-  // exchange?: string;
 }

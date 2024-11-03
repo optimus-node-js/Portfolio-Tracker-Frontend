@@ -1,4 +1,5 @@
 // src/hooks/useFetchPortfolioData.ts
+
 import { useEffect, useState } from 'react';
 import { fetchPortfolioData } from '../services/api';
 import { CombinedPortfolioData } from '../types';
@@ -13,8 +14,10 @@ const useFetchPortfolioData = (filters = {}) => {
       try {
         setLoading(true);
         const result: CombinedPortfolioData = await fetchPortfolioData(filters);
+        console.log('Fetched data:', result); // Debugging log
         setData(result);
       } catch (err) {
+        console.error('Error fetching portfolio data:', err);
         setError('Failed to fetch portfolio data');
       } finally {
         setLoading(false);

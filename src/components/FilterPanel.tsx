@@ -1,4 +1,5 @@
 // src/components/FilterPanel.tsx
+
 import React from 'react';
 import { Filters } from '../types';
 
@@ -8,13 +9,24 @@ type FilterPanelProps = {
 
 export const FilterPanel: React.FC<FilterPanelProps> = ({ setFilters }) => {
   const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFilters((prev: Filters) => ({ ...prev, [e.target.name]: e.target.value }));
+    const { name, value } = e.target;
+    setFilters((prev: Filters) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   return (
-    <div>
-      <input type="date" name="startDate" onChange={handleFilterChange} />
-      <input type="date" name="endDate" onChange={handleFilterChange} />
+    <div style={{ padding: '1rem', backgroundColor: '#f5f5f5', borderBottom: '1px solid #ddd' }}>
+      <label style={{ marginRight: '1rem' }}>
+        Start Date:
+        <input type="date" name="startDate" onChange={handleFilterChange} />
+      </label>
+      <label>
+        End Date:
+        <input type="date" name="endDate" onChange={handleFilterChange} />
+      </label>
+      {/* Add more filter inputs as needed */}
     </div>
   );
 };

@@ -1,4 +1,5 @@
 // src/pages/Dashboard.tsx
+
 import React from 'react';
 import { useRecoilState } from 'recoil';
 import { filterAtom } from '../recoil/atoms';
@@ -11,9 +12,22 @@ export const Dashboard: React.FC = () => {
   const { data, loading, error } = useFetchPortfolioData(filters);
 
   return (
-    <div>
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
+      {/* Filter Panel at the top */}
       <FilterPanel setFilters={setFilters} />
-      {loading ? <p>Loading data...</p> : error ? <p>{error}</p> : <Graph data={data} />}
+
+      {/* Graph occupies the remaining space */}
+      <div style={{ flex: 1, position: 'relative' }}>
+        {loading ? (
+          <p>Loading data...</p>
+        ) : error ? (
+          <p>{error}</p>
+        ) : data ? (
+          <Graph data={data} />
+        ) : (
+          <p>No data available.</p>
+        )}
+      </div>
     </div>
   );
 };
