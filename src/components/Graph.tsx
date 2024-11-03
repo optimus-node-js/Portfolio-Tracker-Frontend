@@ -73,14 +73,10 @@ export const Graph: React.FC<GraphProps> = ({ data }) => {
   );
 
   // State for selected stock metrics
-  const [selectedStockMetrics, setSelectedStockMetrics] = useState<string[]>(
-    ['overallPnL'] // default overallPnL selected
-  );
+  const [selectedStockMetrics, setSelectedStockMetrics] = useState<string[]>(['overallPnL']);
 
   // Handle portfolio metrics selection
-  const handlePortfolioMetricChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handlePortfolioMetricChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, checked } = e.target;
     setSelectedPortfolioMetrics((prev) =>
       checked ? [...prev, name] : prev.filter((metric) => metric !== name)
@@ -99,46 +95,48 @@ export const Graph: React.FC<GraphProps> = ({ data }) => {
   const labels = portfolioEntries.map((entry) => entry.date);
 
   // Prepare datasets for portfolio fields based on selection
-  const portfolioDatasets = selectedPortfolioMetrics.map((metricKey) => {
-    const metric = portfolioMetrics.find((m) => m.key === metricKey);
-    if (!metric) return null;
+  const portfolioDatasets = selectedPortfolioMetrics
+    .map((metricKey) => {
+      const metric = portfolioMetrics.find((m) => m.key === metricKey);
+      if (!metric) return null;
 
-    let borderColor = '';
-    // Assign different colors based on metric
-    switch (metricKey) {
-      case 'totalholdingvalue':
-        borderColor = 'rgba(75, 192, 192, 1)';
-        break;
-      case 'totalinvvalue':
-        borderColor = 'rgba(153, 102, 255, 1)';
-        break;
-      case 'totalprofitandloss':
-        borderColor = 'rgba(255, 159, 64, 1)';
-        break;
-      case 'totalpnlpercentage':
-        borderColor = 'rgba(255, 99, 132, 1)';
-        break;
-      case 'totalTodayGain':
-        borderColor = 'rgba(54, 162, 235, 1)';
-        break;
-      default:
-        borderColor = 'rgba(0,0,0,1)';
-    }
+      let borderColor = '';
+      // Assign different colors based on metric
+      switch (metricKey) {
+        case 'totalholdingvalue':
+          borderColor = 'rgba(75, 192, 192, 1)';
+          break;
+        case 'totalinvvalue':
+          borderColor = 'rgba(153, 102, 255, 1)';
+          break;
+        case 'totalprofitandloss':
+          borderColor = 'rgba(255, 159, 64, 1)';
+          break;
+        case 'totalpnlpercentage':
+          borderColor = 'rgba(255, 99, 132, 1)';
+          break;
+        case 'totalTodayGain':
+          borderColor = 'rgba(54, 162, 235, 1)';
+          break;
+        default:
+          borderColor = 'rgba(0,0,0,1)';
+      }
 
-    return {
-      label: metric.label,
-      data: portfolioEntries.map((entry) => entry[metricKey as keyof PortfolioEntry] as number),
-      borderColor: borderColor,
-      fill: false,
-      yAxisID: 'y1' as const,
-    };
-  }).filter((dataset): dataset is {
-    label: string;
-    data: number[];
-    borderColor: string;
-    fill: boolean;
-    yAxisID: 'y1';
-  } => dataset !== null);
+      return {
+        label: metric.label,
+        data: portfolioEntries.map((entry) => entry[metricKey as keyof PortfolioEntry] as number),
+        borderColor: borderColor,
+        fill: false,
+        yAxisID: 'y1' as const,
+      };
+    })
+    .filter((dataset): dataset is {
+      label: string;
+      data: number[];
+      borderColor: string;
+      fill: boolean;
+      yAxisID: 'y1';
+    } => dataset !== null);
 
   // Prepare datasets for stock portfolio fields based on selection
   const stockDatasets = selectedStockMetrics.flatMap((metricKey) => {
@@ -162,21 +160,24 @@ export const Graph: React.FC<GraphProps> = ({ data }) => {
   // Memoize chart data to optimize performance
   const chartData: ChartData<'line', number[], string> = useMemo(() => {
     return {
-      labels,
+      labels: labels.map((date) =>
+        format(parse(date, 'dd-MM-yyyy', new Date()), 'MMM dd, yyyy')
+      ),
       datasets: chartDatasets,
     };
   }, [labels, chartDatasets]);
 
+  // Define chart options with the correct type for LegendElement
   const options: ChartOptions<'line'> = {
     responsive: true,
-    maintainAspectRatio: false, // Allows the chart to resize based on container
+    maintainAspectRatio: false,
     plugins: {
       legend: {
         position: 'top' as const,
         onClick: function (
           _e: ChartEvent,
-          legendItem: LegendItem<'line'>, // Provide the type argument
-          _legend: LegendElement<'line'> // Provide the type argument
+          legendItem: LegendItem,
+          _legend: LegendElement<'line'> // Specify 'line' as the type argument
         ) {
           const index = legendItem.datasetIndex;
           if (index === undefined) return;
@@ -238,7 +239,7 @@ export const Graph: React.FC<GraphProps> = ({ data }) => {
         display: true,
         position: 'right' as const,
         grid: {
-          drawOnChartArea: false, // only want the grid lines for one axis
+          drawOnChartArea: false,
         },
         title: {
           display: true,

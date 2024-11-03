@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from 'react';
 import { fetchPortfolioData } from '../services/api';
-import { CombinedPortfolioData } from '../types';
+import { CombinedPortfolioData, Filters } from '../types';
 
-const useFetchPortfolioData = (filters = {}) => {
+const useFetchPortfolioData = (filters: Filters = { startDate: '', endDate: '' }) => {
   const [data, setData] = useState<CombinedPortfolioData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -13,7 +13,12 @@ const useFetchPortfolioData = (filters = {}) => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const result: CombinedPortfolioData = await fetchPortfolioData(filters);
+        // Provide default dates if not set
+        const effectiveFilters: Filters = {
+          startDate: filters.startDate || '2024-01-01', // Example default
+          endDate: filters.endDate || '2024-12-31', // Example default
+        };
+        const result: CombinedPortfolioData = await fetchPortfolioData(effectiveFilters);
         console.log('Fetched data:', result); // Debugging log
         setData(result);
       } catch (err) {
