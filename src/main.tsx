@@ -15,5 +15,6 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   </React.StrictMode>
 );
 
+
 // Firebase analytics will be initialized upon app start
 console.log('Firebase Analytics initialized', analytics);
