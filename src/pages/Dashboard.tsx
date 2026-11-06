@@ -8,6 +8,7 @@ import { Graph } from '../components/Graph';
 import { FilterPanel } from '../components/FilterPanel';
 import { useTheme } from '@emotion/react';
 import Loading from '../components/Loading'; // Import the new Loading component
+import { IS_DEMO } from '../services/api';
 
 export const Dashboard: React.FC = () => {
   const [filters, setFilters] = useRecoilState(filterAtom);
@@ -24,6 +25,11 @@ export const Dashboard: React.FC = () => {
         color: theme.colors.text,
       }}
     >
+      {IS_DEMO && (
+        <div style={{ padding: '6px 16px', fontSize: 13, background: '#fff7e6', color: '#7a4b00', borderBottom: '1px solid #f3d9a4' }}>
+          Demo data: a generated sample portfolio of six NSE stocks. Real accounts sync from Angel One via the Portfolio-Tracker job.
+        </div>
+      )}
       {/* Filter Panel at the top */}
       <FilterPanel setFilters={setFilters} />
 
