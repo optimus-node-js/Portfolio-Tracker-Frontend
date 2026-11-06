@@ -4,7 +4,9 @@
 
 ![React](https://img.shields.io/badge/React-20232A?style=flat-square&logo=react&logoColor=61DAFB) ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white) ![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat-square&logo=vite&logoColor=white) ![MUI](https://img.shields.io/badge/MUI-007FFF?style=flat-square&logo=mui&logoColor=white) ![Recoil](https://img.shields.io/badge/Recoil-3578E5?style=flat-square) ![Chart.js](https://img.shields.io/badge/Chart.js-FF6384?style=flat-square&logo=chartdotjs&logoColor=white) ![Vercel](https://img.shields.io/badge/Vercel-000000?style=flat-square&logo=vercel&logoColor=white)
 
-**Live:** [portfolio-tracker-frontend-2.vercel.app/](https://portfolio-tracker-frontend-2.vercel.app/)
+**Live:** [portfolio-tracker-frontend-2.vercel.app](https://portfolio-tracker-frontend-2.vercel.app)
+
+Shows a generated **demo portfolio** by default. Set `VITE_API_BASE_URL` to `https://portfolio-tracker-backend.vercel.app/portfolio/<clientCode>` to view a real synced account.
 
 ## Features
 
